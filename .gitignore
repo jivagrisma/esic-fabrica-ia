@@ -1,0 +1,20 @@
+# Configuración local de herramientas
+.claude/
+
+# Secretos y credenciales — NUNCA commitear
+.env
+.env.*
+*.key
+*.pem
+*service-account*.json
+*credentials*.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Artefactos locales
+*.zip
+/tmp/
