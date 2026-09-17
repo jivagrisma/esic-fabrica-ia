@@ -71,13 +71,37 @@
   button.primary:disabled { background:#9db8d2; cursor:progress; box-shadow:none; }
   button.primary:not(:disabled):active { background:var(--azul); }
 
+  #sec-chat { display:flex; flex-direction:column; }
   #chat-log { height:min(52vh,420px); overflow-y:auto; border:1.5px solid var(--borde);
               border-radius:12px; padding:12px; background:#fafbfd; scroll-behavior:smooth; }
-  .msg { margin:8px 0; padding:10px 13px; border-radius:14px; max-width:88%; white-space:pre-wrap; line-height:1.45; }
-  .msg.user { background:var(--azul); color:#fff; margin-left:auto; border-bottom-right-radius:4px; }
+  .msg { position:relative; margin:10px 0 14px; padding:10px 13px 20px; border-radius:16px;
+         max-width:88%; white-space:pre-wrap; line-height:1.5; font-size:.95rem; }
+  .msg.user { background:var(--azul-2); color:#fff; margin-left:auto; border-bottom-right-radius:4px; }
   .msg.bot { background:#eef2f7; border-bottom-left-radius:4px; }
-  .msg .meta { display:block; font-size:.74rem; color:#64748b; margin-top:6px; }
-  .msg .meta.ticket { color:var(--rojo); font-weight:700; }
+  .msg.bot::before {
+    content:"🎓"; position:absolute; left:-34px; top:0; width:26px; height:26px;
+    background:#fff; border:1.5px solid var(--borde); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:.8rem;
+  }
+  @media (max-width:400px) { .msg.bot::before { display:none; } .msg { max-width:94%; } }
+  .msg .meta { position:absolute; left:12px; right:12px; bottom:4px; font-size:.68rem; color:#94a3b8; }
+  .msg.user .meta { color:rgba(255,255,255,.75); text-align:right; }
+  .msg .meta .ticket { color:var(--rojo); font-weight:700; }
+  .msg.user .meta .ticket { color:#ffd7d7; }
+
+  .msg.typing { display:flex; gap:5px; align-items:center; padding:14px 16px; width:fit-content; }
+  .msg.typing span { width:7px; height:7px; border-radius:50%; background:#8aa2b8; animation:blink 1.2s infinite; }
+  .msg.typing span:nth-child(2) { animation-delay:.2s; }
+  .msg.typing span:nth-child(3) { animation-delay:.4s; }
+  @keyframes blink { 0%,80%,100% { opacity:.25; } 40% { opacity:1; } }
+
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 10px; }
+  .chips button {
+    border:1.5px solid var(--azul-2); background:#fff; color:var(--azul-2);
+    padding:9px 14px; min-height:40px; border-radius:20px; cursor:pointer;
+    font-size:.84rem; font-weight:600;
+  }
+  .chips button:active { background:#e8f1fa; }
 
   #chat-form { display:flex; gap:8px; margin-top:12px; }
   #chat-form input { flex:1; min-height:48px; padding:11px 14px; font-size:16px;
@@ -143,7 +167,7 @@
     <div class="chat-tools">
       <button type="button" onclick="newChat()">🗑️ Nueva consulta</button>
     </div>
-    <p class="hint">Respondo con la información oficial de ESIC sobre programas, formas de pago y empleo. Si tu caso necesita un asesor, te dejo en manos del equipo con todo el contexto.</p>
+    <p class="hint">🎓 Respondo con la información oficial de ESIC · Tus conversaciones no se comparten — esta es una demo con información sintética.</p>
   </section>
 
   <!-- ============ VALIDADOR ============ -->
@@ -200,8 +224,15 @@
 </main>
 
 <footer>
-  ESIC Medellín — Fábrica de IA · Demostración con datos sintéticos<br>
-  Integraciones CRM / sistema académico / Microsoft: simuladas y documentadas · Google Cloud
+  ESIC Medellín · Asistente Inteligente
+  <details style="margin-top:6px;">
+    <summary>Acerca de esta demo</summary>
+    <p style="max-width:520px;margin:8px auto;">
+      Prototipo funcional construido sobre Google Cloud. Los datos institucionales son
+      sintéticos y las integraciones con CRM, sistema académico y Microsoft están en modo
+      de prueba (simuladas y documentadas en el repositorio).
+    </p>
+  </details>
 </footer>
 
 <script src="/static/chat.js"></script>

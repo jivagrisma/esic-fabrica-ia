@@ -1,0 +1,33 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "ESIC Medellín · Asistente Inteligente" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Consultas y trámites, atendidos al instante
+  - navigation [ref=e5]:
+    - button "💬 Consultas" [ref=e6] [cursor=pointer]
+    - button "📄 Validar documento" [ref=e7] [cursor=pointer]
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - text: 🎓 ¡Hola! Soy ESIC Assistant 👋 Pregúntame por programas, financiamiento u oportunidades laborales.
+          - time [ref=e13]: 09:21 p. m.
+        - generic [ref=e27]:
+          - text: Programas y precios
+          - time [ref=e29]: 09:21 p. m.
+        - generic [ref=e30]:
+          - text: "🎓 Claro, aquí te presento la información de nuestros programas y sus precios: * **Especialización en Marketing Digital y Analítica:** COP 18.500.000 * **Especialización en Ciencia de Datos y BI:** COP 21.000.000 * **Especialización en Finanzas y Gestión de Riesgo:** COP 19.800.000 * **MBA Internacional:** COP 45.000.000 Todos nuestros programas son financiables y ofrecemos diversas opciones de financiación. ¡Estamos para ayudarte!"
+          - time [ref=e32]: 09:21 p. m.
+        - generic [ref=e33]:
+          - button "🎓 Programas y precios" [ref=e34] [cursor=pointer]
+          - button "💰 Formas de pago" [ref=e35] [cursor=pointer]
+          - button "💼 Oportunidades laborales" [ref=e36] [cursor=pointer]
+      - generic [ref=e18]:
+        - textbox "Tu consulta" [ref=e19]:
+          - /placeholder: Pregunta sobre programas, pago o empleo…
+        - button "Enviar" [ref=e20] [cursor=pointer]
+      - button "🗑️ Nueva consulta" [ref=e22] [cursor=pointer]
+      - paragraph [ref=e23]: 🎓 Respondo con la información oficial de ESIC · Tus conversaciones no se comparten — esta es una demo con información sintética.
+  - contentinfo [ref=e24]:
+    - text: ESIC Medellín · Asistente Inteligente
+    - group [ref=e25]:
+      - generic "Acerca de esta demo" [ref=e26]
