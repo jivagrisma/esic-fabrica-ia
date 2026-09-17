@@ -1,7 +1,7 @@
 # Entregable 3 — Solución Técnica Detallada
 
 **Fábrica de IA y Automatización ESIC Medellín** · Versión 1.0 · 2026-09-16
-Autor: Jorge Iván Grisales Marín· Asistido por Claude Code
+Autor: Jorge Iván Grisales Marín · Asistido por Claude Code
 
 > **Estado real al cierre de la sesión:** los escenarios 1 y 2 están **implementados en el repositorio** (código citado abajo, archivo por archivo). El **despliegue a Cloud Run y la verificación E2E se ejecutan al cierre de esta sesión**; cualquier enlace público se entrega como parte de ese despliegue. El escenario 3 es **diseño + prompt/pseudocódigo, no código**. Las integraciones con CRM, SIA y Microsoft 365 son **conectores simulados con contratos documentados**.
 

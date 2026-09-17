@@ -1,7 +1,7 @@
 # Entregable 4 — Evaluación de Impacto y ROI
 
 **Fábrica de IA y Automatización ESIC Medellín** · Versión 1.0 (borrador) · 2026-09-16
-Autor: Jorge Iván Aguirre · Asistido por Claude Code
+Autor: Jorge Iván Grisales Marín · Asistido por Claude Code
 
 > **Advertencia de método:** lo que sigue es un **modelo de estimación con supuestos declarados**, no una auditoría financiera. Cada cifra lleva su supuesto al lado. El comité puede cambiar cualquier supuesto y recalcular; la aritmética se muestra paso a paso.
 

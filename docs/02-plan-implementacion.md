@@ -1,7 +1,7 @@
 # Entregable 2 — Plan de Implementación
 
 **Fábrica de IA y Automatización ESIC Medellín** · Versión 1.0 (borrador) · 2026-09-16
-Autor: Jorge Iván Aguirre · Asistido por Claude Code
+Autor: Jorge Iván Grisales Marín · Asistido por Claude Code
 
 > Punto de partida real: el **micro-MVP ya está desplegado y demostrable** en Cloud Run (chatbot con Vertex AI Gemini + validador con Document AI + Firestore). Este plan describe el camino desde esa base demostrada hasta producción con integraciones reales y gobierno de datos.
 

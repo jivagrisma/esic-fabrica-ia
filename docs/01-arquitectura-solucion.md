@@ -1,7 +1,7 @@
 # Entregable 1 — Arquitectura de la Solución
 
 **Fábrica de IA y Automatización ESIC Medellín** · Versión 1.0 · 2026-09-16
-Autor: Jorge Iván Aguirre · Asistido por Claude Code (GLM 5.2 + Claude Sonnet 5)
+Autor: Jorge Iván Grisales Marín · Asistido por Claude Code (GLM 5.2 + Claude Sonnet 5)
 
 ---
 

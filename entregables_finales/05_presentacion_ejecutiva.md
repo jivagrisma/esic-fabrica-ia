@@ -1,6 +1,6 @@
 # Entregable 5 — Presentación Ejecutiva (1 página)
 
-**Fábrica de IA y Automatización ESIC Medellín** · 2026-09-16 · Jorge Iván Grisales Marin
+**Fábrica de IA y Automatización ESIC Medellín** · 2026-09-16 · Jorge Iván Grisales Marín
 
 ---
 
