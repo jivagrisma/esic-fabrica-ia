@@ -40,8 +40,18 @@ def _normalizar(texto: str) -> str:
 
 
 def _confianza_ocr(document) -> float:
-    """Confianza media de las páginas del documento OCR (0.0 si no existe)."""
-    confidences = [p.confidence for p in (document.pages or []) if p.confidence]
+    """Confianza media de las páginas del documento OCR (0.0 si no existe).
+
+    El proto Page no expone 'confidence' directo: vive en page.layout.confidence.
+    """
+
+    def _page_conf(p) -> float:
+        try:
+            return float(getattr(getattr(p, "layout", None), "confidence", 0.0) or 0.0)
+        except (TypeError, ValueError):
+            return 0.0
+
+    confidences = [c for c in map(_page_conf, document.pages or []) if c > 0]
     return sum(confidences) / len(confidences) if confidences else 0.0
 
 
