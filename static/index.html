@@ -2,90 +2,208 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESIC · Fábrica de IA (Micro-MVP)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b3c6b">
+<title>ESIC · Asistente Inteligente</title>
 <style>
-  :root { --azul:#0b3c6b; --rojo:#e4002b; --gris:#f4f6f8; }
-  * { box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
-  body { margin:0; background:var(--gris); color:#1a1a1a; }
-  header { background:var(--azul); color:#fff; padding:18px 28px; display:flex; justify-content:space-between; align-items:center;}
-  header h1 { margin:0; font-size:1.25rem; } header span { color:#ffd200; font-weight:600; }
-  nav { background:#fff; border-bottom:1px solid #ddd; padding:10px 28px; display:flex; gap:12px; }
-  nav button { border:1px solid var(--azul); background:#fff; color:var(--azul); padding:8px 18px; border-radius:20px; cursor:pointer; font-weight:600;}
-  nav button.active { background:var(--azul); color:#fff; }
-  main { max-width:900px; margin:24px auto; padding:0 16px; }
-  .card { background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.08); padding:20px; }
-  #chat-log { height:380px; overflow-y:auto; border:1px solid #e0e0e0; border-radius:8px; padding:12px; background:#fafafa; }
-  .msg { margin:8px 0; padding:8px 12px; border-radius:10px; max-width:85%; white-space:pre-wrap; }
-  .msg.user { background:var(--azul); color:#fff; margin-left:auto; }
-  .msg.bot { background:#eef2f6; }
-  .msg .meta { display:block; font-size:.72rem; color:#888; margin-top:4px; }
+  :root {
+    --azul:#0b3c6b; --azul-2:#1565a8; --rojo:#d4002b; --verde:#0a6b35;
+    --ambar:#9a6b00; --gris:#f5f7fa; --borde:#dde3ea; --texto:#1f2937;
+  }
+  * { box-sizing:border-box; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--gris); color:var(--texto); font-size:16px; }
+
+  header {
+    background:linear-gradient(135deg,var(--azul) 0%,var(--azul-2) 100%);
+    color:#fff; padding:16px 20px; text-align:center;
+  }
+  header h1 { margin:0; font-size:1.15rem; letter-spacing:.3px; }
+  header p { margin:4px 0 0; font-size:.8rem; opacity:.85; }
+
+  nav {
+    position:sticky; top:0; z-index:10; background:#fff;
+    border-bottom:1px solid var(--borde); padding:10px 16px;
+    display:flex; gap:10px; justify-content:center;
+  }
+  nav button {
+    border:1.5px solid var(--azul); background:#fff; color:var(--azul);
+    padding:11px 18px; min-height:44px; border-radius:24px; cursor:pointer;
+    font-weight:600; font-size:.92rem; transition:all .15s ease;
+  }
+  nav button.active { background:var(--azul); color:#fff; box-shadow:0 2px 8px rgba(11,60,107,.35); }
+
+  main { max-width:680px; margin:20px auto 32px; padding:0 16px; }
+  .card { background:#fff; border:1px solid var(--borde); border-radius:16px;
+          box-shadow:0 2px 12px rgba(15,35,60,.06); padding:22px 20px; }
+
+  label { display:block; font-size:.86rem; font-weight:600; color:#374151; margin-bottom:6px; }
+  input[type=text], select {
+    width:100%; min-height:48px; padding:11px 14px; font-size:16px;
+    border:1.5px solid var(--borde); border-radius:10px; background:#fff; color:var(--texto);
+  }
+  input:focus, select:focus { outline:none; border-color:var(--azul-2);
+    box-shadow:0 0 0 3px rgba(21,101,168,.15); }
+  .grid-2 { display:grid; grid-template-columns:1fr; gap:14px; }
+  @media (min-width:560px) { .grid-2 { grid-template-columns:1fr 1fr; } }
+
+  .dropzone {
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    border:2px dashed var(--azul-2); border-radius:14px; background:#f0f6fc;
+    padding:22px 14px; text-align:center;
+  }
+  .dropzone .dz-icon { font-size:1.9rem; }
+  .dropzone .dz-title { font-weight:700; color:var(--azul); }
+  .dropzone .dz-sub { font-size:.8rem; color:#5b6b7c; }
+  .dz-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .dz-btn {
+    display:inline-block; border:1.5px solid var(--azul-2); background:#fff; color:var(--azul-2);
+    padding:11px 16px; min-height:44px; border-radius:10px; cursor:pointer; font-weight:600; font-size:.9rem;
+  }
+  .dz-btn:active { background:#e8f1fa; }
+  .file-ok { color:var(--verde); font-weight:700; font-size:.9rem; }
+
+  button.primary {
+    background:var(--azul-2); color:#fff; border:0; width:100%; min-height:50px;
+    padding:13px 20px; border-radius:12px; cursor:pointer; font-weight:700; font-size:1rem;
+    box-shadow:0 2px 8px rgba(21,101,168,.3); transition:background .15s;
+  }
+  button.primary:disabled { background:#9db8d2; cursor:progress; box-shadow:none; }
+  button.primary:not(:disabled):active { background:var(--azul); }
+
+  #chat-log { height:min(52vh,420px); overflow-y:auto; border:1.5px solid var(--borde);
+              border-radius:12px; padding:12px; background:#fafbfd; scroll-behavior:smooth; }
+  .msg { margin:8px 0; padding:10px 13px; border-radius:14px; max-width:88%; white-space:pre-wrap; line-height:1.45; }
+  .msg.user { background:var(--azul); color:#fff; margin-left:auto; border-bottom-right-radius:4px; }
+  .msg.bot { background:#eef2f7; border-bottom-left-radius:4px; }
+  .msg .meta { display:block; font-size:.74rem; color:#64748b; margin-top:6px; }
   .msg .meta.ticket { color:var(--rojo); font-weight:700; }
+
   #chat-form { display:flex; gap:8px; margin-top:12px; }
-  #chat-form input { flex:1; padding:10px 12px; border:1px solid #ccc; border-radius:8px; }
-  button.primary { background:var(--rojo); color:#fff; border:0; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:600; }
-  .hint { font-size:.8rem; color:#666; margin-top:8px; }
-  .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:.78rem; font-weight:700; }
-  .badge.ok { background:#d9f2e4; color:#0a6b35; } .badge.warn { background:#fdf0d5; color:#9a6b00; } .badge.err { background:#fde2e2; color:#a00; }
-  pre.json { background:#0b3c6b; color:#d7e6ff; padding:12px; border-radius:8px; overflow-x:auto; font-size:.78rem; }
-  .sim { background:#fff4f4; border:1px dashed var(--rojo); padding:8px 12px; border-radius:8px; font-size:.8rem; color:#7a1020; margin-top:10px;}
-  footer { text-align:center; font-size:.75rem; color:#888; padding:18px; }
+  #chat-form input { flex:1; min-height:48px; padding:11px 14px; font-size:16px;
+                     border:1.5px solid var(--borde); border-radius:12px; }
+  #chat-form button { flex:0 0 auto; width:auto; min-height:48px; padding:0 22px; }
+  .chat-tools { margin-top:10px; text-align:right; }
+  .chat-tools button { border:1px solid var(--borde); background:#fff; color:#5b6b7c;
+    padding:8px 14px; min-height:40px; border-radius:18px; cursor:pointer; font-size:.82rem; }
+
+  .hint { font-size:.8rem; color:#64748b; margin:12px 0 0; line-height:1.5; }
+
+  .badge { display:inline-block; padding:5px 14px; border-radius:14px; font-size:.82rem; font-weight:800; letter-spacing:.5px; }
+  .badge.ok { background:#d9f2e4; color:var(--verde); }
+  .badge.warn { background:#fdf0d5; color:var(--ambar); }
+  .badge.err { background:#fde2e2; color:var(--rojo); }
+
+  .resultado { margin-top:18px; border-top:1px solid var(--borde); padding-top:16px; }
+  .resultado h4 { margin:14px 0 6px; font-size:.9rem; color:#374151; }
+  .campos { display:grid; grid-template-columns:1fr; gap:6px; font-size:.92rem; }
+  @media (min-width:560px) { .campos { grid-template-columns:1fr 1fr; } }
+  .campo { background:#f8fafc; border:1px solid var(--borde); border-radius:8px; padding:8px 10px; }
+  .campo b { color:#475569; font-size:.78rem; display:block; }
+  ul.alertas { color:var(--rojo); padding-left:20px; margin:6px 0; font-size:.9rem; }
+
+  .nota-sim {
+    background:#fbf7ef; border:1px solid #e8ddc0; color:#6b5b2a; border-radius:10px;
+    padding:10px 12px; font-size:.78rem; margin-top:12px; line-height:1.5;
+  }
+  .nota-sim b { color:#5a4c20; }
+
+  details.tecnico { margin-top:12px; }
+  details.tecnico summary { cursor:pointer; font-size:.82rem; color:var(--azul-2); font-weight:600; }
+  pre.json { background:#0f2438; color:#d7e6ff; padding:12px; border-radius:10px;
+             overflow-x:auto; font-size:.72rem; }
+
+  .spinner { display:inline-block; width:16px; height:16px; border:2.5px solid rgba(255,255,255,.4);
+             border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite;
+             vertical-align:-3px; margin-right:8px; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  footer { text-align:center; font-size:.72rem; color:#8a97a5; padding:20px 16px 28px; line-height:1.6; }
 </style>
 </head>
 <body>
 <header>
-  <h1>ESIC Medellín · Fábrica de IA</h1>
-  <span>Micro-MVP · Google Cloud</span>
+  <h1>ESIC Medellín · Asistente Inteligente</h1>
+  <p>Consultas y trámites, atendidos al instante</p>
 </header>
+
 <nav>
-  <button id="tab-chat" class="active" onclick="showTab('chat')">💬 Chatbot de consultas</button>
-  <button id="tab-docs" onclick="showTab('docs')">📄 Validador de documentos</button>
+  <button id="tab-chat" class="active" onclick="showTab('chat')">💬 Consultas</button>
+  <button id="tab-docs" onclick="showTab('docs')">📄 Validar documento</button>
 </nav>
+
 <main>
+  <!-- ============ CHAT ============ -->
   <section id="sec-chat" class="card">
-    <div id="chat-log"></div>
+    <div id="chat-log" aria-live="polite"></div>
     <form id="chat-form" onsubmit="return sendChat(event)">
-      <input id="chat-input" placeholder="Escribe tu consulta: programas, financiamiento, empleo…" autocomplete="off">
+      <input id="chat-input" placeholder="Pregunta sobre programas, pago o empleo…" autocomplete="off" aria-label="Tu consulta">
       <button class="primary" type="submit">Enviar</button>
     </form>
-    <div style="margin-top:8px;text-align:right;">
-      <button type="button" onclick="newChat()" style="border:1px solid #ccc;background:#fff;color:#555;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:.8rem;">🗑️ Nueva consulta</button>
+    <div class="chat-tools">
+      <button type="button" onclick="newChat()">🗑️ Nueva consulta</button>
     </div>
-    <p class="hint">Respuestas basadas únicamente en la información oficial de programas, financiamiento y empleo de ESIC. Si tu caso requiere atención personalizada, te derivamos con un asesor.</p>
+    <p class="hint">Respondo con la información oficial de ESIC sobre programas, formas de pago y empleo. Si tu caso necesita un asesor, te dejo en manos del equipo con todo el contexto.</p>
   </section>
 
+  <!-- ============ VALIDADOR ============ -->
   <section id="sec-docs" class="card" style="display:none">
-    <h3 style="margin-top:0">Validación automática de documentos</h3>
-    <p style="font-size:.85rem;color:#555">Sube un documento (PDF o imagen): Document AI hace OCR, las reglas + Gemini validan integridad, completitud y consistencia, y se genera el reporte con alertas.</p>
+    <h3 style="margin:0 0 6px; font-size:1.1rem; color:var(--azul)">Validar un documento</h3>
+    <p style="margin:0 0 18px; font-size:.88rem; color:#5b6b7c; line-height:1.5">
+      Sube el documento y el sistema lo lee automáticamente, confirma que esté completo
+      y avisa si encuentra alguna inconsistencia — en segundos, no en horas.
+    </p>
+
     <form id="docs-form" onsubmit="return sendDoc(event)">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+      <div class="grid-2">
         <div>
-          <label>Tipo de documento</label>
-          <select id="doc-type" style="width:100%;padding:9px;border:1px solid #ccc;border-radius:8px;">
+          <label for="doc-type">Tipo de documento</label>
+          <select id="doc-type">
             <option value="cedula">Cédula de ciudadanía</option>
             <option value="transcript">Transcript académico</option>
             <option value="certificado">Certificado laboral</option>
           </select>
         </div>
         <div>
-          <label>Nombre del solicitante (para consistencia)</label>
-          <input id="applicant-name" placeholder="Como aparece en la solicitud" style="width:100%;padding:9px;border:1px solid #ccc;border-radius:8px;">
+          <label for="applicant-name">Nombre del solicitante</label>
+          <input type="text" id="applicant-name" placeholder="Tal como aparece en la solicitud">
         </div>
       </div>
-      <div style="margin-bottom:12px;">
-        <label for="doc-file" style="display:inline-block;border:2px dashed var(--azul);padding:16px 22px;border-radius:10px;cursor:pointer;background:#f0f6fc;color:var(--azul);font-weight:600;">
-          📎 Adjuntar documento (PDF o imagen)
-        </label>
-        <input type="file" id="doc-file" accept="application/pdf,image/*" required style="display:none;" onchange="document.getElementById('file-name').textContent=this.files[0]?('Archivo: '+this.files[0].name):''">
-        <span id="file-name" style="margin-left:10px;font-size:.85rem;color:#0a6b35;font-weight:600;"></span>
+
+      <div style="margin:16px 0 14px;">
+        <div class="dropzone" id="dropzone">
+          <span class="dz-icon">📄</span>
+          <span class="dz-title" id="dz-title">Adjunta tu documento</span>
+          <span class="dz-sub">PDF o imagen · máximo 10 MB</span>
+          <div class="dz-actions">
+            <label class="dz-btn" for="doc-file">📎 Elegir archivo</label>
+            <label class="dz-btn" for="doc-file-cam">📷 Usar cámara</label>
+          </div>
+          <span class="file-ok" id="file-name"></span>
+        </div>
+        <input type="file" id="doc-file" accept="application/pdf,image/*" style="display:none"
+               onchange="fileChosen(this)">
+        <input type="file" id="doc-file-cam" accept="image/*" capture="environment" style="display:none"
+               onchange="fileChosen(this)">
       </div>
-      <button class="primary" type="submit">Validar documento</button>
+
+      <button class="primary" type="submit" id="docs-submit">Validar documento</button>
     </form>
-    <div id="docs-result" style="margin-top:16px;"></div>
-    <div class="sim">⚠️ Integración con el sistema académico: <b>conector SIMULADO</b> con contrato REST documentado (no productiva).</div>
+
+    <div id="docs-result" class="resultado"></div>
+
+    <div class="nota-sim">
+      <b>Nota:</b> la entrega del documento al sistema académico está en modo de prueba
+      (integración simulada documentada). La lectura y validación del documento sí son reales.
+    </div>
   </section>
 </main>
-<footer>ESIC Medellín — Caso práctico Fábrica de IA · Datos sintéticos de demostración · Conectores CRM/SIA/Microsoft simulados y documentados</footer>
+
+<footer>
+  ESIC Medellín — Fábrica de IA · Demostración con datos sintéticos<br>
+  Integraciones CRM / sistema académico / Microsoft: simuladas y documentadas · Google Cloud
+</footer>
+
 <script src="/static/chat.js"></script>
 <script src="/static/docs.js"></script>
 <script>
@@ -94,6 +212,17 @@ function showTab(tab) {
   document.getElementById('sec-docs').style.display = tab === 'docs' ? '' : 'none';
   document.getElementById('tab-chat').classList.toggle('active', tab === 'chat');
   document.getElementById('tab-docs').classList.toggle('active', tab === 'docs');
+  window.scrollTo({ top: 0 });
+}
+
+function fileChosen(input) {
+  const otro = input.id === 'doc-file'
+    ? document.getElementById('doc-file-cam')
+    : document.getElementById('doc-file');
+  otro.value = ''; // solo un archivo a la vez
+  const name = input.files[0] ? input.files[0].name : '';
+  document.getElementById('file-name').textContent = name ? ('✓ ' + name) : '';
+  document.getElementById('dz-title').textContent = name ? 'Documento listo para validar' : 'Adjunta tu documento';
 }
 seedChat();
 </script>

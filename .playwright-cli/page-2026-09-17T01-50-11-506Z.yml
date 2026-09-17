@@ -1,0 +1,44 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - heading "ESIC Medellín · Fábrica de IA" [level=1] [ref=e3]
+    - generic [ref=e4]: Micro-MVP · Google Cloud
+  - navigation [ref=e5]:
+    - button "💬 Chatbot de consultas" [ref=e6] [cursor=pointer]
+    - button "📄 Validador de documentos" [ref=e7] [cursor=pointer]
+  - main [ref=e8]:
+    - generic [ref=e19]:
+      - heading "Validación automática de documentos" [level=3] [ref=e20]
+      - paragraph [ref=e21]: "Sube un documento (PDF o imagen): Document AI hace OCR, las reglas + Gemini validan integridad, completitud y consistencia, y se genera el reporte con alertas."
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - text: Tipo de documento
+            - combobox [ref=e25]:
+              - option "Cédula de ciudadanía" [selected]
+              - option "Transcript académico"
+              - option "Certificado laboral"
+          - generic [ref=e26]:
+            - text: Nombre del solicitante (para consistencia)
+            - textbox "Como aparece en la solicitud" [ref=e27]: Mariana Gomez Restrepo
+        - generic [ref=e28]:
+          - generic [ref=e29] [cursor=pointer]: 📎 Adjuntar documento (PDF o imagen)
+          - text: "Archivo: cedula_demo.png"
+        - button "Validar documento" [active] [ref=e30] [cursor=pointer]
+      - generic [ref=e33]:
+        - generic [ref=e34]: ALERTA
+        - text: "Confianza OCR: 98% · Reporte VAL-13CE80BF"
+        - heading "Campos extraídos" [level=4] [ref=e35]
+        - list [ref=e36]:
+          - listitem [ref=e37]: "numero de cédula: 1024587963"
+          - listitem [ref=e38]: "nombres: MARIANA"
+          - listitem [ref=e39]: "apellidos: GOMEZ RESTREPO"
+          - listitem [ref=e40]: "fecha de nacimiento: 14/03/1998"
+        - heading "Alertas" [level=4] [ref=e41]
+        - list [ref=e42]:
+          - listitem [ref=e43]: La cédula está marcada como 'DEMO'
+          - listitem [ref=e44]: El documento indica explícitamente ser 'DOCUMENTO SINTETICO PARA DEMO-NO VALIDO'
+        - generic [ref=e45]: "Entrega al sistema académico (SIMULADA)Estado: en_admision · Recibo: REC-7084"
+        - generic [ref=e46]: "Notificación Teams (SIMULADA)VAL-13CE80BF | alerta | alertas: La cédula está marcada como 'DEMO', El documento indica explícitamente ser 'DOCUMENTO SINTETICO PARA DEMO-NO VALIDO'"
+        - generic [ref=e47]: "{ \"report_id\": \"VAL-13CE80BF\", \"doc_type\": \"cedula\", \"verdict\": \"alerta\", \"confidence\": 0.98, \"campos_extraidos\": { \"numero de cédula\": \"1024587963\", \"nombres\": \"MARIANA\", \"apellidos\": \"GOMEZ RESTREPO\", \"fecha de nacimiento\": \"14/03/1998\" }, \"alertas\": [ \"La cédula está marcada como 'DEMO'\", \"El documento indica explícitamente ser 'DOCUMENTO SINTETICO PARA DEMO-NO VALIDO'\" ], \"entrega_sia\": { \"simulated\": true, \"ok\": true, \"endpoint_documentado\": \"POST https://sia.esic.edu/api/v1/solicitudes/SOL-6060/documentos\", \"payload_enviado\": { \"tipo\": \"cedula\", \"estado\": \"alerta\", \"campos_extraidos\": { \"numero de cédula\": \"1024587963\", \"nombres\": \"MARIANA\", \"apellidos\": \"GOMEZ RESTREPO\", \"fecha de nacimiento\": \"14/03/1998\" }, \"reporte_validacion_id\": \"VAL-13CE80BF\", \"solicitud_id\": \"SOL-6060\" }, \"solicitud_estado\": \"en_admision\", \"recibo\": \"REC-7084\", \"mensaje\": \"Documento entregado al sistema académico SIMULADO (contrato respetado).\" }, \"notificacion_teams\": { \"simulated\": true, \"endpoint_documentado\": \"POST https://graph.microsoft.com/v1.0/teams/{id}/channels/{id}/messages\", \"mensaje_publicado\": \"VAL-13CE80BF | alerta | alertas: La cédula está marcada como 'DEMO', El documento indica explícitamente ser 'DOCUMENTO SINTETICO PARA DEMO-NO VALIDO'\", \"mensaje\": \"Alerta publicada en Microsoft Teams SIMULADA.\" } }"
+      - generic [ref=e31]: "⚠️ Integración con el sistema académico: conector SIMULADO con contrato REST documentado (no productiva)."
+  - contentinfo [ref=e18]: ESIC Medellín — Caso práctico Fábrica de IA · Datos sintéticos de demostración · Conectores CRM/SIA/Microsoft simulados y documentados

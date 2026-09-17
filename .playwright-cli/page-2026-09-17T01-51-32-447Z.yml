@@ -1,0 +1,60 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "ESIC Medellín · Asistente Inteligente" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Consultas y trámites, atendidos al instante
+  - navigation [ref=e5]:
+    - button "💬 Consultas" [ref=e6] [cursor=pointer]
+    - button "📄 Validar documento" [ref=e7] [cursor=pointer]
+  - main [ref=e8]:
+    - generic [ref=e19]:
+      - heading "Validar un documento" [level=3] [ref=e20]
+      - paragraph [ref=e21]: Sube el documento y el sistema lo lee automáticamente, confirma que esté completo y avisa si encuentra alguna inconsistencia — en segundos, no en horas.
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e25]: Tipo de documento
+            - combobox "Tipo de documento" [ref=e26]:
+              - option "Cédula de ciudadanía" [selected]
+              - option "Transcript académico"
+              - option "Certificado laboral"
+          - generic [ref=e27]:
+            - generic [ref=e28]: Nombre del solicitante
+            - textbox "Nombre del solicitante" [ref=e29]:
+              - /placeholder: Tal como aparece en la solicitud
+              - text: Mariana Gomez Restrepo
+        - generic [ref=e31]:
+          - generic [ref=e32]: 📄
+          - generic [ref=e33]: Documento listo para validar
+          - generic [ref=e34]: PDF o imagen · máximo 10 MB
+          - generic [ref=e35]:
+            - generic [ref=e36] [cursor=pointer]: 📎 Elegir archivo
+            - generic [ref=e37] [cursor=pointer]: 📷 Usar cámara
+          - generic [ref=e41]: ✓ cedula_demo.png
+        - button "Validar documento" [ref=e38] [cursor=pointer]
+      - generic [ref=e39]:
+        - generic [ref=e42]: ⚠ REVISAR — CON ALERTAS
+        - text: "Confianza de lectura: 98% · Reporte VAL-ED760929"
+        - heading "Datos leídos del documento" [level=4] [ref=e43]
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - generic [ref=e46]: número de cédula
+            - text: "1024587963"
+          - generic [ref=e47]:
+            - generic [ref=e48]: nombres
+            - text: MARIANA
+          - generic [ref=e49]:
+            - generic [ref=e50]: apellidos
+            - text: GOMEZ RESTREPO
+          - generic [ref=e51]:
+            - generic [ref=e52]: fecha de nacimiento
+            - text: 14/03/1998
+        - heading "⚠ Alertas para revisar" [level=4] [ref=e53]
+        - list [ref=e54]:
+          - listitem [ref=e55]: La cabecera del documento incluye '(DEMO)' junto a 'CEDULA DE CIUDADANIA'.
+          - listitem [ref=e56]: El documento contiene el texto 'DOCUMENTO SINTETICO PARA DEMO-NO VALIDO'.
+        - heading "Entrega al sistema académico" [level=4] [ref=e57]
+        - generic [ref=e58]: "✓ Registrada en la solicitud (modo de prueba) · Comprobante: REC-6853"
+        - group [ref=e59]:
+          - generic "Ver detalle técnico completo" [ref=e60] [cursor=pointer]
+      - generic [ref=e40]: "Nota: la entrega del documento al sistema académico está en modo de prueba (integración simulada documentada). La lectura y validación del documento sí son reales."
+  - contentinfo [ref=e18]: "ESIC Medellín — Fábrica de IA · Demostración con datos sintéticos Integraciones CRM / sistema académico / Microsoft: simuladas y documentadas · Google Cloud"

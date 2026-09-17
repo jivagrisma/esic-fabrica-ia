@@ -1,0 +1,17 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "ESIC Medellín · Asistente Inteligente" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Consultas y trámites, atendidos al instante
+  - navigation [ref=e5]:
+    - button "💬 Consultas" [ref=e6] [cursor=pointer]
+    - button "📄 Validar documento" [ref=e7] [cursor=pointer]
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]: ¡Hola! Soy ESIC Assistant 👋 Pregúntame por programas, financiamiento u oportunidades laborales.
+      - generic [ref=e12]:
+        - textbox "Tu consulta" [ref=e13]:
+          - /placeholder: Pregunta sobre programas, pago o empleo…
+        - button "Enviar" [ref=e14] [cursor=pointer]
+      - button "🗑️ Nueva consulta" [ref=e16] [cursor=pointer]
+      - paragraph [ref=e17]: Respondo con la información oficial de ESIC sobre programas, formas de pago y empleo. Si tu caso necesita un asesor, te dejo en manos del equipo con todo el contexto.
+  - contentinfo [ref=e18]: "ESIC Medellín — Fábrica de IA · Demostración con datos sintéticos Integraciones CRM / sistema académico / Microsoft: simuladas y documentadas · Google Cloud"

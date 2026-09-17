@@ -6,21 +6,38 @@ function escapeHtml(v) {
     .replaceAll('"', "&quot;").replaceAll("'", "&#39;");
 }
 
+function _archivoElegido() {
+  const a = document.getElementById("doc-file");
+  const b = document.getElementById("doc-file-cam");
+  if (a.files.length) return a.files[0];
+  if (b.files.length) return b.files[0];
+  return null;
+}
+
 async function sendDoc(event) {
   event.preventDefault();
-  const fileInput = document.getElementById("doc-file");
-  if (!fileInput.files.length) {
-    document.getElementById("docs-result").innerHTML =
-      '<p class="badge err">Selecciona un archivo para validar.</p>';
+  const file = _archivoElegido();
+  const out = document.getElementById("docs-result");
+  if (!file) {
+    out.innerHTML = '<p><span class="badge warn">Primero adjunta un documento</span></p>';
     return false;
   }
+  if (file.size > 10 * 1024 * 1024) {
+    out.innerHTML = '<p><span class="badge warn">El archivo supera 10 MB</span></p>';
+    return false;
+  }
+
   const fd = new FormData();
-  fd.append("file", fileInput.files[0]);
+  fd.append("file", file);
   fd.append("doc_type", document.getElementById("doc-type").value);
   fd.append("applicant_name", document.getElementById("applicant-name").value);
   fd.append("solicitud_id", "SOL-" + String(Math.floor(1000 + Math.random() * 9000)));
-  const out = document.getElementById("docs-result");
-  out.innerHTML = "<p>Analizando documento…</p>";
+
+  const btn = document.getElementById("docs-submit");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Analizando documento…';
+  out.innerHTML = "";
+
   try {
     const res = await fetch("/api/documents", { method: "POST", body: fd });
     if (!res.ok) {
@@ -29,54 +46,57 @@ async function sendDoc(event) {
     }
     renderDocResult(await res.json());
   } catch (e) {
-    out.innerHTML = '<p class="badge err">Error al validar el documento: ' +
-      escapeHtml(e.message) + "</p>";
+    out.innerHTML = '<p><span class="badge err">No pudimos validar el documento</span><br>' +
+      '<span class="hint">' + escapeHtml(e.message) + '</span></p>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Validar documento";
   }
   return false;
 }
 
 function renderDocResult(d) {
   const cls = d.verdict === "valido" ? "ok" : (d.verdict === "alerta" ? "warn" : "err");
-  const labels = { valido: "VÁLIDO", alerta: "ALERTA", rechazado: "RECHAZADO" };
+  const labels = {
+    valido: "✓ DOCUMENTO VÁLIDO",
+    alerta: "⚠ REVISAR — CON ALERTAS",
+    rechazado: "✕ DOCUMENTO RECHAZADO",
+  };
 
   let html = '<span class="badge ' + cls + '">' + escapeHtml(labels[d.verdict] || d.verdict) +
-    "</span> <span>Confianza OCR: " + escapeHtml(Math.round((d.confidence || 0) * 100) + "%") +
+    "</span> &nbsp;<span class='hint'>Confianza de lectura: " +
+    escapeHtml(Math.round((d.confidence || 0) * 100) + "%") +
     " · Reporte " + escapeHtml(d.report_id) + "</span>";
 
-  html += "<h4>Campos extraídos</h4><ul>";
   const campos = d.campos_extraidos || {};
   const claves = Object.keys(campos);
-  if (!claves.length) {
-    html += "<li>—</li>";
-  } else {
+  if (claves.length) {
+    html += "<h4>Datos leídos del documento</h4><div class='campos'>";
     for (const k of claves) {
-      html += "<li><b>" + escapeHtml(k) + ":</b> " +
-        (campos[k] === null || campos[k] === undefined || campos[k] === ""
-          ? "—" : escapeHtml(campos[k])) + "</li>";
+      const v = campos[k];
+      html += "<div class='campo'><b>" + escapeHtml(k) + "</b>" +
+        (v === null || v === undefined || v === "" ? "—" : escapeHtml(v)) + "</div>";
     }
+    html += "</div>";
   }
-  html += "</ul>";
 
   if (d.alertas && d.alertas.length) {
-    html += '<h4 style="color:#a00">Alertas</h4><ul style="color:#a00">';
+    html += "<h4 style='color:var(--rojo)'>⚠ Alertas para revisar</h4><ul class='alertas'>";
     for (const a of d.alertas) html += "<li>" + escapeHtml(a) + "</li>";
     html += "</ul>";
+  } else if (d.verdict === "valido") {
+    html += "<h4 style='color:var(--verde)'>Sin alertas: documento completo y consistente.</h4>";
   }
 
   const sia = d.entrega_sia || {};
-  html += '<div class="sim"><b>Entrega al sistema académico (SIMULADA)</b><br>' +
+  html += "<h4>Entrega al sistema académico</h4><div class='nota-sim'>" +
     (sia.omitido
-      ? "Omitida: " + escapeHtml(sia.omitido)
-      : "Estado: " + escapeHtml(sia.solicitud_estado || "?") +
-        " · Recibo: " + escapeHtml(sia.recibo || "?")) + "</div>";
+      ? "No se entregó: " + escapeHtml(sia.omitido) + "."
+      : "✓ Registrada en la solicitud (modo de prueba) · Comprobante: <b>" +
+        escapeHtml(sia.recibo || "?") + "</b>") + "</div>";
 
-  const teams = d.notificacion_teams || {};
-  html += '<div class="sim"><b>Notificación Teams (SIMULADA)</b><br>' +
-    (teams.omitido
-      ? "Omitida: " + escapeHtml(teams.omitido)
-      : escapeHtml(teams.mensaje_publicado || teams.mensaje || "")) + "</div>";
-
-  html += '<pre class="json">' + escapeHtml(JSON.stringify(d, null, 2)) + "</pre>";
+  html += "<details class='tecnico'><summary>Ver detalle técnico completo</summary>" +
+    "<pre class='json'>" + escapeHtml(JSON.stringify(d, null, 2)) + "</pre></details>";
 
   document.getElementById("docs-result").innerHTML = html;
 }
