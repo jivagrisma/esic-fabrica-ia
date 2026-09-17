@@ -9,7 +9,9 @@
 - Billing: vinculado a cuenta `014D68-XXXXXX-XXXXXX` (ID redactado: no exponer en repo público) ✅
   - Nota: se desvinculó `project-a88bf383-099d-4d78-960` (verificado vacío: sin APIs de cómputo) por cuota de la cuenta. Autorizado por Jorge.
 - APIs habilitadas: Cloud Run, Vertex AI, Document AI, Firestore, Cloud Build, Artifact Registry ✅
-- Región de trabajo: `us-central1`
+- Región de trabajo: `us-central1` (Cloud Run, Vertex AI, Firestore) · Document AI usa multi-región `us`
+- Processor Document AI OCR: `projects/985215895070/locations/us/processors/33966db067a8aeba` (ENABLED) ✅
+- Firestore (default) creado en us-central1 ✅
 
 ---
 

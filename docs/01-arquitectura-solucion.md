@@ -49,14 +49,27 @@ exactamente el requisito del caso ("escalar sin incrementar significativamente l
 |---|---|---|---|
 | Orquestación + API + UI | **Cloud Run** | Un solo servicio sirve la web y la API; autoscaling de 0 a N | Serverless, contenedor estándar, link público en minutos, paga por uso |
 | LLM chatbot + análisis | **Vertex AI — Gemini** (`gemini-2.5-flash`)* | Respuestas generativas con grounding; análisis de consistencia de documentos; explicaciones del recomendador | Modelo GA estable, bajo costo/latencia, RAG nativo (Vertex Search) para producción, data governance empresarial |
-| OCR + extracción | **Document AI** | Digitaliza cédula/transcripts/certificados, extrae pares clave-valor y confianza por campo | OCR de precisión líder + parsers por tipo de documento + confidence scores listos para reglas de validación |
+| OCR + extracción | **Document AI** (región multi-región **`us`**) | Digitaliza cédula/transcripts/certificados, extrae pares clave-valor y confianza por campo | OCR de precisión líder + parsers por tipo de documento + confidence scores listos para reglas de validación |
 | Estado + registro | **Firestore (Native)** | Colecciones `interactions`, `tickets`, `validations` | Serverless, latencia baja, escala automática, integración nativa con Cloud Run |
 | Integraciones | **Conectores simulados** (`connectors/`) | Contratos (JSON Schema) + respuestas simuladas de CRM, sistema académico y Microsoft 365 | El caso NO exige integración productiva; se documenta como simulada (requisito de honestidad del reto) |
 
-\* **Nota de verificación:** ID de modelo vigente a confirmar en el panel de Vertex AI Model Garden
-o con la lista de publisher models al momento del despliegue real. `gemini-2.5-flash` es el ID
-GA estable documentado al corte de esta solución; la arquitectura no depende del ID específico
-(cambiar de modelo = 1 variable de entorno).
+\* **Nota de verificación (honestidad del ejercicio):** el ID de modelo `gemini-2.5-flash`
+**no se verificó contra la API en vivo** durante la construcción — el intento de listar los
+publisher models de Vertex AI falló repetidamente por límites de tiempo y configuración de
+quota project, y se decidió no gastar más tiempo del bloque en depurarlo. Es el ID GA estable
+según el conocimiento del autor al corte de esta solución y **debe confirmarse en el panel de
+Vertex AI Model Garden (o con la lista de publisher models) al momento del despliegue real**.
+La arquitectura no depende del ID específico: cambiar de modelo = ajustar 1 variable de
+entorno (`GEMINI_MODEL`).
+
+**Decisión de regiones (explícita, no inconsistencia):** este proyecto despliega Cloud Run y
+Vertex AI en `us-central1`, pero Document AI opera en su **región multi-región `us`**
+(`documentai.googleapis.com/.../locations/us/...`) — así lo exige la API para este proyecto
+(una request a `locations/us-central1` es rechazada con "must match the server deployment 'us'").
+El processor OCR creado para el MVP es
+`projects/985215895070/locations/us/processors/33966db067a8aeba` (estado: ENABLED).
+Esta división no afecta latencia ni costo de forma significativa y queda documentada como
+decisión deliberada de la implementación.
 
 ## 3. Flujo de datos
 

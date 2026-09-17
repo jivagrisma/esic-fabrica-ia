@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESIC · Fábrica de IA (Micro-MVP)</title>
+<style>
+  :root { --azul:#0b3c6b; --rojo:#e4002b; --gris:#f4f6f8; }
+  * { box-sizing:border-box; font-family:'Segoe UI',system-ui,sans-serif; }
+  body { margin:0; background:var(--gris); color:#1a1a1a; }
+  header { background:var(--azul); color:#fff; padding:18px 28px; display:flex; justify-content:space-between; align-items:center;}
+  header h1 { margin:0; font-size:1.25rem; } header span { color:#ffd200; font-weight:600; }
+  nav { background:#fff; border-bottom:1px solid #ddd; padding:10px 28px; display:flex; gap:12px; }
+  nav button { border:1px solid var(--azul); background:#fff; color:var(--azul); padding:8px 18px; border-radius:20px; cursor:pointer; font-weight:600;}
+  nav button.active { background:var(--azul); color:#fff; }
+  main { max-width:900px; margin:24px auto; padding:0 16px; }
+  .card { background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.08); padding:20px; }
+  #chat-log { height:380px; overflow-y:auto; border:1px solid #e0e0e0; border-radius:8px; padding:12px; background:#fafafa; }
+  .msg { margin:8px 0; padding:8px 12px; border-radius:10px; max-width:85%; white-space:pre-wrap; }
+  .msg.user { background:var(--azul); color:#fff; margin-left:auto; }
+  .msg.bot { background:#eef2f6; }
+  .msg .meta { display:block; font-size:.72rem; color:#888; margin-top:4px; }
+  .msg .meta.ticket { color:var(--rojo); font-weight:700; }
+  #chat-form { display:flex; gap:8px; margin-top:12px; }
+  #chat-form input { flex:1; padding:10px 12px; border:1px solid #ccc; border-radius:8px; }
+  button.primary { background:var(--rojo); color:#fff; border:0; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:600; }
+  .hint { font-size:.8rem; color:#666; margin-top:8px; }
+  .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:.78rem; font-weight:700; }
+  .badge.ok { background:#d9f2e4; color:#0a6b35; } .badge.warn { background:#fdf0d5; color:#9a6b00; } .badge.err { background:#fde2e2; color:#a00; }
+  pre.json { background:#0b3c6b; color:#d7e6ff; padding:12px; border-radius:8px; overflow-x:auto; font-size:.78rem; }
+  .sim { background:#fff4f4; border:1px dashed var(--rojo); padding:8px 12px; border-radius:8px; font-size:.8rem; color:#7a1020; margin-top:10px;}
+  footer { text-align:center; font-size:.75rem; color:#888; padding:18px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ESIC Medellín · Fábrica de IA</h1>
+  <span>Micro-MVP · Google Cloud</span>
+</header>
+<nav>
+  <button id="tab-chat" class="active" onclick="showTab('chat')">💬 Chatbot de consultas</button>
+  <button id="tab-docs" onclick="showTab('docs')">📄 Validador de documentos</button>
+</nav>
+<main>
+  <section id="sec-chat" class="card">
+    <div id="chat-log"></div>
+    <form id="chat-form" onsubmit="return sendChat(event)">
+      <input id="chat-input" placeholder="Escribe tu consulta: programas, financiamiento, empleo…" autocomplete="off">
+      <button class="primary" type="submit">Enviar</button>
+    </form>
+    <p class="hint">Powered by Vertex AI (Gemini) con grounding en base de conocimiento ESIC · Interacciones registradas en Firestore · Demo con datos sintéticos</p>
+  </section>
+
+  <section id="sec-docs" class="card" style="display:none">
+    <h3 style="margin-top:0">Validación automática de documentos</h3>
+    <p style="font-size:.85rem;color:#555">Sube un documento (PDF o imagen): Document AI hace OCR, las reglas + Gemini validan integridad, completitud y consistencia, y se genera el reporte con alertas.</p>
+    <form id="docs-form" onsubmit="return sendDoc(event)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div>
+          <label>Tipo de documento</label>
+          <select id="doc-type" style="width:100%;padding:9px;border:1px solid #ccc;border-radius:8px;">
+            <option value="cedula">Cédula de ciudadanía</option>
+            <option value="transcript">Transcript académico</option>
+            <option value="certificado">Certificado laboral</option>
+          </select>
+        </div>
+        <div>
+          <label>Nombre del solicitante (para consistencia)</label>
+          <input id="applicant-name" placeholder="Como aparece en la solicitud" style="width:100%;padding:9px;border:1px solid #ccc;border-radius:8px;">
+        </div>
+      </div>
+      <input type="file" id="doc-file" accept="application/pdf,image/*" required style="margin-bottom:12px;">
+      <button class="primary" type="submit">Validar documento</button>
+    </form>
+    <div id="docs-result" style="margin-top:16px;"></div>
+    <div class="sim">⚠️ Integración con el sistema académico: <b>conector SIMULADO</b> con contrato REST documentado (no productiva).</div>
+  </section>
+</main>
+<footer>ESIC Medellín — Caso práctico Fábrica de IA · Datos sintéticos de demostración · Conectores CRM/SIA/Microsoft simulados y documentados</footer>
+<script src="/static/chat.js"></script>
+<script src="/static/docs.js"></script>
+<script>seedChat();</script>
+</body>
+</html>
