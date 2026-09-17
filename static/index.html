@@ -48,7 +48,10 @@
       <input id="chat-input" placeholder="Escribe tu consulta: programas, financiamiento, empleo…" autocomplete="off">
       <button class="primary" type="submit">Enviar</button>
     </form>
-    <p class="hint">Powered by Vertex AI (Gemini) con grounding en base de conocimiento ESIC · Interacciones registradas en Firestore · Demo con datos sintéticos</p>
+    <div style="margin-top:8px;text-align:right;">
+      <button type="button" onclick="newChat()" style="border:1px solid #ccc;background:#fff;color:#555;padding:6px 14px;border-radius:16px;cursor:pointer;font-size:.8rem;">🗑️ Nueva consulta</button>
+    </div>
+    <p class="hint">Respuestas basadas únicamente en la información oficial de programas, financiamiento y empleo de ESIC. Si tu caso requiere atención personalizada, te derivamos con un asesor.</p>
   </section>
 
   <section id="sec-docs" class="card" style="display:none">
@@ -69,7 +72,13 @@
           <input id="applicant-name" placeholder="Como aparece en la solicitud" style="width:100%;padding:9px;border:1px solid #ccc;border-radius:8px;">
         </div>
       </div>
-      <input type="file" id="doc-file" accept="application/pdf,image/*" required style="margin-bottom:12px;">
+      <div style="margin-bottom:12px;">
+        <label for="doc-file" style="display:inline-block;border:2px dashed var(--azul);padding:16px 22px;border-radius:10px;cursor:pointer;background:#f0f6fc;color:var(--azul);font-weight:600;">
+          📎 Adjuntar documento (PDF o imagen)
+        </label>
+        <input type="file" id="doc-file" accept="application/pdf,image/*" required style="display:none;" onchange="document.getElementById('file-name').textContent=this.files[0]?('Archivo: '+this.files[0].name):''">
+        <span id="file-name" style="margin-left:10px;font-size:.85rem;color:#0a6b35;font-weight:600;"></span>
+      </div>
       <button class="primary" type="submit">Validar documento</button>
     </form>
     <div id="docs-result" style="margin-top:16px;"></div>
@@ -79,6 +88,14 @@
 <footer>ESIC Medellín — Caso práctico Fábrica de IA · Datos sintéticos de demostración · Conectores CRM/SIA/Microsoft simulados y documentados</footer>
 <script src="/static/chat.js"></script>
 <script src="/static/docs.js"></script>
-<script>seedChat();</script>
+<script>
+function showTab(tab) {
+  document.getElementById('sec-chat').style.display = tab === 'chat' ? '' : 'none';
+  document.getElementById('sec-docs').style.display = tab === 'docs' ? '' : 'none';
+  document.getElementById('tab-chat').classList.toggle('active', tab === 'chat');
+  document.getElementById('tab-docs').classList.toggle('active', tab === 'docs');
+}
+seedChat();
+</script>
 </body>
 </html>

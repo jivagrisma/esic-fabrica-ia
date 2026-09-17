@@ -71,8 +71,13 @@ def _aplicar_reglas(
         alertas.append(f"Confianza OCR baja ({confianza * 100:.0f}%)")
     nombre = _normalizar(applicant.get("nombre", ""))
     texto_norm = _normalizar(texto)
-    if nombre and nombre not in texto_norm and texto_norm not in nombre:
-        alertas.append("Nombre no coincide con la solicitud")
+    if nombre:
+        # Los nombres aparecen en campos separados del documento (Nombres: /
+        # Apellidos:), así que se comparan palabra por palabra (orden libre).
+        # Solo falta la coincidencia si falta alguna palabra significativa.
+        palabras = [p for p in nombre.split() if len(p) >= 3]
+        if palabras and not all(p in texto_norm for p in palabras):
+            alertas.append("Nombre no coincide con la solicitud")
     return alertas
 
 

@@ -1,0 +1,26 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - heading "ESIC Medellín · Fábrica de IA" [level=1] [ref=e3]
+    - generic [ref=e4]: Micro-MVP · Google Cloud
+  - navigation [ref=e5]:
+    - button "💬 Chatbot de consultas" [ref=e6] [cursor=pointer]
+    - button "📄 Validador de documentos" [active] [ref=e7] [cursor=pointer]
+  - main [ref=e8]:
+    - generic [ref=e17]:
+      - heading "Validación automática de documentos" [level=3] [ref=e18]
+      - paragraph [ref=e19]: "Sube un documento (PDF o imagen): Document AI hace OCR, las reglas + Gemini validan integridad, completitud y consistencia, y se genera el reporte con alertas."
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - text: Tipo de documento
+            - combobox [ref=e23]:
+              - option "Cédula de ciudadanía" [selected]
+              - option "Transcript académico"
+              - option "Certificado laboral"
+          - generic [ref=e24]:
+            - text: Nombre del solicitante (para consistencia)
+            - textbox "Como aparece en la solicitud" [ref=e25]
+        - button "Choose File" [ref=e26]
+        - button "Validar documento" [ref=e27] [cursor=pointer]
+      - generic [ref=e28]: "⚠️ Integración con el sistema académico: conector SIMULADO con contrato REST documentado (no productiva)."
+  - contentinfo [ref=e16]: ESIC Medellín — Caso práctico Fábrica de IA · Datos sintéticos de demostración · Conectores CRM/SIA/Microsoft simulados y documentados

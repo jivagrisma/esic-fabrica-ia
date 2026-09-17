@@ -1,0 +1,16 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "ESIC Medellín · Fábrica de IA" [level=1] [ref=e3]
+    - generic [ref=e4]: Micro-MVP · Google Cloud
+  - navigation [ref=e5]:
+    - button "💬 Chatbot de consultas" [ref=e6] [cursor=pointer]
+    - button "📄 Validador de documentos" [ref=e7] [cursor=pointer]
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]: ¡Hola! Soy ESIC Assistant 👋 Pregúntame por programas, financiamiento u oportunidades laborales.
+      - generic [ref=e12]:
+        - 'textbox "Escribe tu consulta: programas, financiamiento, empleo…" [ref=e13]'
+        - button "Enviar" [ref=e14] [cursor=pointer]
+      - button "🗑️ Nueva consulta" [ref=e16] [cursor=pointer]
+      - paragraph [ref=e17]: Respuestas basadas únicamente en la información oficial de programas, financiamiento y empleo de ESIC. Si tu caso requiere atención personalizada, te derivamos con un asesor.
+  - contentinfo [ref=e18]: ESIC Medellín — Caso práctico Fábrica de IA · Datos sintéticos de demostración · Conectores CRM/SIA/Microsoft simulados y documentados

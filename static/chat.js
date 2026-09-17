@@ -36,6 +36,14 @@ function seedChat() {
   );
 }
 
+// Nueva consulta: limpia la conversación y arranca una sesión fresca
+// (la conversación anterior queda registrada en el historial del servidor).
+function newChat() {
+  document.getElementById("chat-log").innerHTML = "";
+  seedChat();
+  document.getElementById("chat-input").focus();
+}
+
 async function sendChat(event) {
   event.preventDefault();
   const input = document.getElementById("chat-input");
